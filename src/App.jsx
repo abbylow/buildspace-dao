@@ -48,6 +48,15 @@ const token = useToken("0x1d60a7bE6487324131c970e8DD1667B67A843C4C");
         // Only show the proposals which are currently active
         setProposals(proposals.filter(proposal => proposal.state === 1));
         console.log("🌈 Proposals: ", proposals);
+        try {
+          //if the state is in state 4 (meaning that it is ready to be executed), we'll execute the proposal
+          proposals.filter(proposal => proposal.state === 4).map(proposal => {      
+              return vote.execute(proposal.proposalId);
+          })
+          console.log("successfully execute");
+        } catch (err) {
+          console.error("failed to execute", err);
+        }
       } catch (error) {
         console.log("failed to get proposals", error);
       }
